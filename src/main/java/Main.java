@@ -26,7 +26,7 @@ public class Main {
 
         Employee installer = new Installer( "Иван",
                 "Иванов",
-                Position.DEVELOPER,
+                Position.INSTALLER,
                 new BigDecimal(600),
                 Department.WAREHOUSE);
 
