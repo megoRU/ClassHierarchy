@@ -1,11 +1,13 @@
 import employees.*;
 import employees.enums.Department;
 import employees.enums.Position;
+import employees.enums.ProgrammingLanguage;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -14,49 +16,58 @@ public class Main {
 
         List<Employee> employeeList = new ArrayList<>();
 
-        Developer developer = new Developer(
+        Employee developer = new Developer(
                 "Юрий",
-                "Савин",
-                Position.DEVELOPER,
+                "Савин", Position.DEVELOPER,
                 new BigDecimal(1200),
-                "Java",
-                "skillbox");
-        JavaDeveloper javaDeveloper = new JavaDeveloper(developer, 2, "INTELLIJ IDEA");
+                ProgrammingLanguage.JAVA,
+                "skillbox",
+                2,
+                "INTELLIJ IDEA");
 
-
-        Employee installer = new Installer( "Иван",
+        Employee installer = new Installer(
+                "Иван",
                 "Иванов",
                 Position.INSTALLER,
                 new BigDecimal(600),
                 Department.WAREHOUSE);
 
-        Employee quarryman = new Quarryman("Вадим",
+        Employee quarryman = new Quarryman(
+                "Вадим",
                 "Мешков",
                 Position.ELECTRONIC_ENGINEER,
                 new BigDecimal(450),
                 new String[]{"1", "2", "3"});
 
-
         employeeList.add(installer);
         employeeList.add(developer);
         employeeList.add(quarryman);
 
-
         //Печатаем информацию о каждом сотруднике
         employeeList.forEach(Employee::getInfoEmployee);
 
-
-        //Используем компаратор чтобы отсортировать заплату
+        //Используем компаратор, чтобы отсортировать заплату
         List<Employee> sortedEmployeeList = employeeList.stream()
                 .sorted(Comparator.comparing(Employee::getSalary))
-                .toList();
+                .collect(Collectors.toUnmodifiableList());
+
+        List<Developer> javaDeveloperList = employeeList.stream()
+                .filter(employee -> employee.getPosition().equals(Position.DEVELOPER))
+                .map(Developer.class::cast)
+                .filter(developers -> developers.getDevelopmentLanguage().equals(ProgrammingLanguage.JAVA))
+                .collect(Collectors.toUnmodifiableList());
+
+        javaDeveloperList.forEach(Employee::getInfoEmployee);
 
 
         //Выводим отсортированный список Сотрудников
-        sortedEmployeeList.forEach(employee -> System.out.println(
-                "Имя: " + employee.getFirstName() +
-                " Фамилия: " + employee.getLastName() +
-                " Зарплата: " + employee.getSalary()));
+        sortedEmployeeList.forEach(employee ->
+                System.out.printf(
+                                """
+                                Имя: %s
+                                Фамилия: %s
+                                Зарплата: %s
+                                %n""", employee.getFirstName(), employee.getLastName(), employee.getSalary()));
 
     }
 }

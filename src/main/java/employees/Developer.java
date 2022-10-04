@@ -1,18 +1,25 @@
 package employees;
 
 import employees.enums.Position;
+import employees.enums.ProgrammingLanguage;
 
 import java.math.BigDecimal;
 
 public class Developer extends Employee {
 
-    private final String developmentLanguage;
+    private final ProgrammingLanguage developmentLanguage;
     private final String university;
+    private final Integer experience;
+    private final String ide;
 
-    public Developer(String firstName, String lastName, Position position, BigDecimal salary, String developmentLanguage, String university) {
+    public Developer(String firstName, String lastName, Position position, BigDecimal salary,
+                     ProgrammingLanguage developmentLanguage, String university,
+                     Integer experience, String ide) {
         super(firstName, lastName, position, salary);
         this.developmentLanguage = developmentLanguage;
         this.university = university;
+        this.experience = experience;
+        this.ide = ide;
     }
 
     @Override
@@ -26,7 +33,15 @@ public class Developer extends Employee {
                 "\n");
     }
 
-    public String getDevelopmentLanguage() {
+    public Integer getExperience() {
+        return experience;
+    }
+
+    public String getIde() {
+        return ide;
+    }
+
+    public ProgrammingLanguage getDevelopmentLanguage() {
         return developmentLanguage;
     }
 
